@@ -1,13 +1,24 @@
 defmodule War do
-  # define this as a constant so you dont need to run it everytime
-  def createCards do
+
+  def simulateGame do
+    deck = createCards()
+    players = setupGame(deck)
+  end
+
+  #TODO: define this as a constant so you dont need to run it everytime
+  defp createCards do
     suits = [:clubs, :diamonds, :hearts, :spades]
     faceValues = Enum.to_list(2..14)
 
     Enum.reduce(suits, [], fn (suit, cards) -> cards ++ Enum.map(faceValues, fn value -> [value, suit] end) end)
   end
 
-  def cardToString(card) do
+  defp setupGame(deck) do
+    playerHands = Enum.shuffle(deck) |> Enum.chunk_every(26)
+    playerHands
+  end
+
+  defp cardToString(card) do
     [value, suit] = card
 
     value = cond do
@@ -27,4 +38,5 @@ defmodule War do
 
     "#{value} of #{suit}"
   end
+
 end
